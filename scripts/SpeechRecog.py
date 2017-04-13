@@ -5,14 +5,17 @@ from pocketsphinx.pocketsphinx import *
 from sphinxbase.sphinxbase import *
 import pyaudio
 import logging
-import rospy
+import rospy, rospkg
 from logikoma_multi_modal.msg import user_input
+
 
 
 class SpeechRecog:
     def __init__(self):
         #DATADIR = "../models/data"
-        MODELDIR = "logikoma_multi_modal/models"
+        pkg_path = rospkg.RosPack().get_path('logikoma_multi_modal')
+        MODELDIR = pkg_path + "/models/"
+        keyphrase_path = MODELDIR + 'user_input_keyphrases.list'
         self.pub = rospy.Publisher('/speech_recog', user_input, queue_size=1)
 
         # Create a decoder with certain model
@@ -20,7 +23,7 @@ class SpeechRecog:
         self.config.set_string('-hmm', path.join(MODELDIR, 'en-us/en-us'))
         #config.set_string('-lm', path.join(MODELDIR, 'en-us/en-us.lm.bin'))
         self.config.set_string('-dict', path.join(MODELDIR, 'en-us/cmudict-en-us.dict'))
-        self.config.set_string('-kws', 'logikoma_multi_modal/models/keywords.list')
+        self.config.set_string('-kws', keyphrase_path)
         self.decoder = Decoder(self.config)
         self.p = pyaudio.PyAudio()
         self.stream = self.p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=1024)
@@ -34,7 +37,7 @@ class SpeechRecog:
 
     def listen(self):
         self.decoder.start_utt()
-        while True:
+        while not rospy.is_shutdown():
             buf = self.stream.read(1024)
             self.decoder.process_raw(buf, False, False)
             if self.decoder.hyp() != None:

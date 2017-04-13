@@ -1,0 +1,20 @@
+turn right /1e-12/
+turn left /1e-12/
+move forward /1e-12/
+stop /1e-12/
+wait /1e-12/
+you got it /1e-12/
+start /1e-12/
+move back /1e-12/
+get back /1e-12/
+go forward /1e-12/
+turn to your right /1e-12/
+turn to your left /1e-12/
+go straight /1e-12/
+turn around /1e-12/
+rotate to your right /1e-12/
+rotate to your left /1e-12/
+rotate to right /1e-12/
+rotate to left /1e-12/
+make a left /1e-12/
+make a right /1e-12/
