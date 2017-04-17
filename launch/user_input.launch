@@ -1,0 +1,6 @@
+<launch>
+    <param name = "goal_topic"  value = "/goal"/>
+    <node name="logikoma_user_input" pkg = "logikoma_multi_modal" type = "Logikoma_User_Input.py">
+        <param name="use_voice" type="bool" value = "true"/>
+    </node>
+</launch>

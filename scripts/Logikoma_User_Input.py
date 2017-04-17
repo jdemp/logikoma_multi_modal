@@ -1,23 +1,35 @@
 #!/usr/bin/env python
-import rospy
-from logikoma_multi_modal.msg import user_input
+import rospy, rospkg
+from logikoma_multi_modal.msg import user_input, action_output
+#from logikoma_multi_modal.scripts import SpeechMapper
+from SpeechMapper import SpeechMapper
 
 class Logikoma_User_Input:
 
     def __init__(self):
-        self.use_voice = rospy.get_param('/logikoma_user_input/use_voice', True)
-        print str(self.use_voice)
+        pkg_path = rospkg.RosPack().get_path('logikoma_multi_modal')
+        self.MODELDIR = pkg_path + "/models/"
+        self.use_speech = rospy.get_param('/logikoma_user_input/use_speech', True)
+        print str(self.use_speech)
         self.use_gesture = rospy.get_param('use_gesture', False)
         self.use_keyboard = rospy.get_param('use_keyboard', False)
         self.goal_topic = rospy.get_param('/goal_topic', '/goal')
-        self.goal_pub = rospy.Publisher(self.goal_topic, user_input, queue_size=1)
+        self.goal_pub = rospy.Publisher(self.goal_topic, action_output, queue_size=1)
         self.input_history = []
         self.number_of_inputs = 0
         self.current_inputs = []
+        self.input_mappers = {}
 
     def decide_action(self):
         if len(self.current_inputs)==1:
             msg = self.current_inputs.pop()
+            if msg.type == 'speech':
+                action = self.input_mappers['speech'].process(msg.input)
+            else:
+                action = 'none'
+            msg = action_output()
+            msg.action = action
+            msg.header.stamp = rospy.get_rostime()
             self.goal_pub.publish(msg)
 
     def process(self, msg):
@@ -25,9 +37,11 @@ class Logikoma_User_Input:
         self.current_inputs.append(msg)
 
     def start(self):
-        if self.use_voice:
-            voice_topic = rospy.get_param('/speech_topic', '/speech_recog')
-            rospy.Subscriber(voice_topic, user_input, callback=self.process)
+        if self.use_speech:
+            speech_topic = rospy.get_param('/speech_topic', '/speech_recog')
+            self.input_mappers['speech'] = SpeechMapper(True, False, False)
+            self.input_mappers['speech'].set_static_mapping(self.MODELDIR + 'speech_mapping.mapping')
+            rospy.Subscriber(speech_topic, user_input, callback=self.process)
             self.number_of_inputs += 1
 
         if self.number_of_inputs >0:
