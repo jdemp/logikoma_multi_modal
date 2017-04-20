@@ -24,11 +24,13 @@ class Logikoma_User_Input:
         if len(self.current_inputs)==1:
             msg = self.current_inputs.pop()
             if msg.type == 'speech':
-                action = self.input_mappers['speech'].process(msg.input)
+                (action, action_type) = self.input_mappers['speech'].process(msg.input)
             else:
                 action = 'none'
+                action_type = 0
             msg = action_output()
             msg.action = action
+            msg.action_type = action_type
             msg.header.stamp = rospy.get_rostime()
             self.goal_pub.publish(msg)
 

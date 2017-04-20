@@ -12,9 +12,11 @@ class SpeechMapper(InputMapper):
         for line in lines:
             s = line.split('->')
             keys = s[0].split('==')
-            action = s[1].strip()
+            actions = s[1].split(',')
+            action = actions[0].strip()
+            action_type = int(actions[0].strip())
             for k in keys:
-                self.static_mapping[k.strip()]=action
+                self.static_mapping[k.strip()]=(action, action_type)
 
     def process(self, input):
         if self.static_mapping.has_key(input.strip()):
