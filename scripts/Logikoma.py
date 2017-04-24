@@ -107,6 +107,12 @@ class Logikoma:
         elif user_goal.action == 'go back':
             self.move_base.cancel_goal()
             self.go_back()
+        elif user_goal.action == 'turn left':
+            self.move_base.cancel_goal()
+            self.turn('left')
+        elif user_goal.action == 'turn right':
+            self.move_base.cancel_goal()
+            self.turn('right')
         else:
             print "I can't complete that action"
 
@@ -123,7 +129,7 @@ class Logikoma:
         rospy.on_shutdown(self.on_shutdown)
         rate = rospy.Rate(5)
         while not rospy.is_shutdown():
-
+            continue
 
 
 

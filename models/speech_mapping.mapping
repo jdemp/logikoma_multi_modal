@@ -2,8 +2,8 @@ stop == wait -> stop
 move back == get back -> go back
 move forward == go forward == go straight ->go straight
 turn around == turn 180 degrees ->turn X(180) degrees
-turn right == turn to your right --> turn X(<=90) degrees to the right?
-turn left == turn to your left --> turn X(<=90) degrees to the left?
+turn right == turn to your right --> turn right
+turn left == turn to your left --> turn left
 rotate to your right -> turn X(90) degrees to the right
 rotate to your left -> turn X(90) degrees to the left
 rotate to right -> turn X(90) degrees to the right
