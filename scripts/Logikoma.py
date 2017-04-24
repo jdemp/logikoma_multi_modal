@@ -25,7 +25,7 @@ def rotate_around_z(degrees, quat):
 
 class Logikoma:
     def __init__(self):
-        self.goal_topic = '/goal'
+        self.goal_topic = '/user_goal'
         self.move_base = actionlib.SimpleActionClient("move_base", MoveBaseAction)
         self.pose = Pose()
         self.stopped = True
