@@ -1,4 +1,4 @@
-stop == wait -> make a stop
+stop == wait -> stop
 move back == get back -> go back
 move forward == go forward == go straight ->go straight
 turn around == turn 180 degrees ->turn X(180) degrees
@@ -11,5 +11,5 @@ rotate to left -> turn X(90) degrees to the left
 make a left -> turn X(<=90) degrees to the right and go straight?
 make a right -> turn X(<=90) degrees to the left and go straight?
 rotate to your right -> turn X(90) degrees to the right
-start -> turn on
-you got it -> turns off
+start -> search
+you got it -> done

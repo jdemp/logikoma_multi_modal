@@ -28,6 +28,7 @@ class Logikoma:
         self.move_base = actionlib.SimpleActionClient("move_base", MoveBaseAction)
         self.pose = Pose()
         self.stopped = True
+        self.auto = False
 
     def go_forward(self, action):
         goal = MoveBaseGoal()
@@ -38,8 +39,6 @@ class Logikoma:
         goal.target_pose.pose.position.z = self.pose.position.z
         goal.target_pose.pose.orientation = self.pose.orientation
         self.move_base.send_goal(goal)
-        success = self.move_base.wait_for_result(rospy.Duration(15))
-        return success
 
     def navigate_to_point(self, x, y):
         goal = MoveBaseGoal()
@@ -50,8 +49,6 @@ class Logikoma:
         goal.target_pose.pose.position.z = self.pose.position.z
         goal.target_pose.pose.orientation = self.pose.orientation
         self.move_base.send_goal(goal)
-        success = self.move_base.wait_for_result(rospy.Duration(30))
-        return success
 
     def go_back(self):
         goal = MoveBaseGoal()
@@ -62,8 +59,6 @@ class Logikoma:
         goal.target_pose.pose.position.z = self.pose.position.z
         goal.target_pose.pose.orientation = self.pose.orientation
         self.move_base.send_goal(goal)
-        success = self.move_base.wait_for_result(rospy.Duration(15))
-        return success
 
     def turn(self, action):
         goal = MoveBaseGoal()
@@ -77,14 +72,13 @@ class Logikoma:
             goal.target_pose.pose.position.y = self.pose.position.y + .5
             goal.target_pose.pose.orientation = rotate_around_z(90,self.pose.orientation)
         self.move_base.send_goal(goal)
-        success = self.move_base.wait_for_result(rospy.Duration(15))
-        return success
 
     def rotate(self, action):
         pass
 
     def stop(self):
         #may need to add current pose
+
         goal = MoveBaseGoal()
         goal = MoveBaseGoal()
         goal.target_pose.header.frame_id = 'base_link'
@@ -94,7 +88,6 @@ class Logikoma:
         goal.target_pose.pose.position.z = self.pose.position.z
         goal.target_pose.pose.orientation = self.pose.orientation
         self.move_base.send_goal(goal)
-        success = self.move_base.wait_for_result(rospy.Duration(15))
         self.stopped = True
 
     def done(self):
@@ -102,7 +95,20 @@ class Logikoma:
 
     def process(self,user_goal):
         # create list of goals and which method to call each method will parse the action
-        pass
+        if user_goal.action =='stop':
+            self.move_base.cancel_goal()
+            self.stopped = True
+        elif user_goal.action == 'continue':
+            pass
+        elif user_goal.action == 'search':
+            self.auto = True
+        elif user_goal.action == 'done':
+            self.done()
+        elif user_goal.action == 'go back':
+            self.move_base.cancel_goal()
+            self.go_back()
+        else:
+            print "I can't complete that action"
 
     def update_pose(self,msg):
         self.pose = msg.pose.pose
@@ -117,7 +123,7 @@ class Logikoma:
         rospy.on_shutdown(self.on_shutdown)
         rate = rospy.Rate(5)
         while not rospy.is_shutdown():
-            rate.sleep()
+
 
 
 
