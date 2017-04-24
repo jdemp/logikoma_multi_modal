@@ -15,7 +15,7 @@ def euler_to_quat(roll,pitch,yaw):
 
 
 def quat_to_euler(quat):
-    return transformations.euler_from_quaternion(quat)
+    return transformations.euler_from_quaternion(quat[0], quat[1], quat[2], quat[3])
 
 
 def rotate_around_z(degrees, quat):
@@ -114,6 +114,9 @@ class Logikoma:
         elif user_goal.action == 'turn right':
             self.move_base.cancel_goal()
             self.turn('right')
+        elif user_goal.action == 'go straight':
+            self.move_base.cancel_goal()
+            self.go_forward(1)
         else:
             print "I can't complete that action"
 
