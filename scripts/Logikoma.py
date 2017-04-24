@@ -33,7 +33,7 @@ class Logikoma:
 
     def go_forward(self, action):
         goal = MoveBaseGoal()
-        goal.target_pose.header.frame_id = 'base_footprint'
+        goal.target_pose.header.frame_id = 'map'
         goal.target_pose.header.stamp = rospy.Time.now()
         goal.target_pose.pose.position.x = self.pose.position.x + action
         goal.target_pose.pose.position.y = self.pose.position.y
@@ -43,7 +43,7 @@ class Logikoma:
 
     def navigate_to_point(self, x, y):
         goal = MoveBaseGoal()
-        goal.target_pose.header.frame_id = 'base_footprint'
+        goal.target_pose.header.frame_id = 'map'
         goal.target_pose.header.stamp = rospy.Time.now()
         goal.target_pose.pose.position.x = x
         goal.target_pose.pose.position.y = y
@@ -53,7 +53,7 @@ class Logikoma:
 
     def go_back(self):
         goal = MoveBaseGoal()
-        goal.target_pose.header.frame_id = 'base_footprint'
+        goal.target_pose.header.frame_id = 'map'
         goal.target_pose.header.stamp = rospy.Time.now()
         goal.target_pose.pose.position.x = self.pose.position.x - 1
         goal.target_pose.pose.position.y = self.pose.position.y
@@ -63,7 +63,7 @@ class Logikoma:
 
     def turn(self, action):
         goal = MoveBaseGoal()
-        goal.target_pose.header.frame_id = 'base_footprint'
+        goal.target_pose.header.frame_id = 'map'
         goal.target_pose.header.stamp = rospy.Time.now()
         goal.target_pose.pose.position.x = self.pose.position.x + 0.5
         if action == 'left':
@@ -82,7 +82,7 @@ class Logikoma:
 
         goal = MoveBaseGoal()
         goal = MoveBaseGoal()
-        goal.target_pose.header.frame_id = 'odom'
+        goal.target_pose.header.frame_id = 'map'
         goal.target_pose.header.stamp = rospy.Time.now()
         goal.target_pose.pose.position.x = self.pose.position.x
         goal.target_pose.pose.position.y = self.pose.position.y
