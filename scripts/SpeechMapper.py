@@ -14,9 +14,9 @@ class SpeechMapper(InputMapper):
             keys = s[0].split('==')
             actions = s[1].split(',')
             action = actions[0].strip()
-            action_type = int(actions[0].strip())
+            #action_type = int(actions[0].strip())
             for k in keys:
-                self.static_mapping[k.strip()]=(action, action_type)
+                self.static_mapping[k.strip()]=action
 
     def process(self, input):
         if self.static_mapping.has_key(input.strip()):
