@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import rospy
 from logikoma_multi_modal.msg import action_output
 
