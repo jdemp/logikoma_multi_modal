@@ -23,6 +23,8 @@ def rotate_around_z(degrees, quat):
     return euler_to_quat(euler[0],euler[1],math.radians(degrees))
 
 
+#need to transform coordinates from odom frame to map frame before sending the action to the robot
+#look at sending the action to the /goal topic instead of the action client
 class Logikoma:
     def __init__(self):
         self.goal_topic = '/user_goal'

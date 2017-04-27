@@ -16,6 +16,7 @@ class SpeechMapper(InputMapper):
             action = actions[0].strip()
             #action_type = int(actions[0].strip())
             for k in keys:
+
                 self.static_mapping[k.strip()]=action
 
     def process(self, input):
