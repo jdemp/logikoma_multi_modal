@@ -120,7 +120,7 @@ class Logikoma:
         else:
             print "I can't complete that action"
 
-        success = self.move_base.wait_for_result(rospy.Duration(60))
+        success = self.move_base.wait_for_result(rospy.Duration(15))
         if success:
             print "I did it"
         else:
