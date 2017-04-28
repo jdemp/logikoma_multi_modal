@@ -61,15 +61,17 @@ class Logikoma:
 
     def turn(self, action):
         goal = MoveBaseGoal()
-        goal.target_pose.header.frame_id = 'odom'
+        goal.target_pose.header.frame_id = 'base_link'
         goal.target_pose.header.stamp = rospy.Time.now()
-        goal.target_pose.pose.position.x = self.pose.position.x + 0.5
+        goal.target_pose.pose.position.x = .5
         if action == 'left':
-            goal.target_pose.pose.position.y = self.pose.position.y - 0.5
-            goal.target_pose.pose.orientation = rotate_around_z(-90,self.pose.orientation)
+            goal.target_pose.pose.position.y = -.5
+            goal.target_pose.pose.orientation.z = .7071
+            goal.target_pose.pose.orientation.w = .7071
         else:
             goal.target_pose.pose.position.y = self.pose.position.y + .5
-            goal.target_pose.pose.orientation = rotate_around_z(90,self.pose.orientation)
+            goal.target_pose.pose.orientation.z = -.7071
+            goal.target_pose.pose.orientation.w = .7071
         self.move_base.send_goal(goal)
 
     def rotate(self, action):
