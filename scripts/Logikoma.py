@@ -35,12 +35,10 @@ class Logikoma:
 
     def go_forward(self, action):
         goal = MoveBaseGoal()
-        goal.target_pose.header.frame_id = 'map'
+        goal.target_pose.header.frame_id = 'base_link'
         goal.target_pose.header.stamp = rospy.Time.now()
-        goal.target_pose.pose.position.x = self.pose.position.x + action
-        goal.target_pose.pose.position.y = self.pose.position.y
-        goal.target_pose.pose.position.z = self.pose.position.z
-        goal.target_pose.pose.orientation = self.pose.orientation
+        goal.target_pose.pose.position.x = 1 #3 meters
+        goal.target_pose.pose.orientation.w = 1.0 #go forward
         self.move_base.send_goal(goal)
 
     def navigate_to_point(self, x, y):
@@ -55,17 +53,15 @@ class Logikoma:
 
     def go_back(self):
         goal = MoveBaseGoal()
-        goal.target_pose.header.frame_id = 'map'
+        goal.target_pose.header.frame_id = 'base_link'
         goal.target_pose.header.stamp = rospy.Time.now()
-        goal.target_pose.pose.position.x = self.pose.position.x - 1
-        goal.target_pose.pose.position.y = self.pose.position.y
-        goal.target_pose.pose.position.z = self.pose.position.z
-        goal.target_pose.pose.orientation = self.pose.orientation
+        goal.target_pose.pose.position.x = -1
+        goal.target_pose.pose.orientation.w = 1.0 #go forward
         self.move_base.send_goal(goal)
 
     def turn(self, action):
         goal = MoveBaseGoal()
-        goal.target_pose.header.frame_id = 'map'
+        goal.target_pose.header.frame_id = 'odom'
         goal.target_pose.header.stamp = rospy.Time.now()
         goal.target_pose.pose.position.x = self.pose.position.x + 0.5
         if action == 'left':
@@ -78,20 +74,6 @@ class Logikoma:
 
     def rotate(self, action):
         pass
-
-    def stop(self):
-        #may need to add current pose
-
-        goal = MoveBaseGoal()
-        goal = MoveBaseGoal()
-        goal.target_pose.header.frame_id = 'map'
-        goal.target_pose.header.stamp = rospy.Time.now()
-        goal.target_pose.pose.position.x = self.pose.position.x
-        goal.target_pose.pose.position.y = self.pose.position.y
-        goal.target_pose.pose.position.z = self.pose.position.z
-        goal.target_pose.pose.orientation = self.pose.orientation
-        self.move_base.send_goal(goal)
-        self.stopped = True
 
     def done(self):
         pass
@@ -121,6 +103,12 @@ class Logikoma:
             self.go_forward(1)
         else:
             print "I can't complete that action"
+
+        success = self.move_base.wait_for_result(rospy.Duration(60))
+        if success:
+            print "I did it"
+        else:
+            print "Failed to complete action"
 
     def update_pose(self,msg):
         self.pose = msg.pose.pose
