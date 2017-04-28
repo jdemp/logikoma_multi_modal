@@ -1,13 +1,11 @@
 stop == wait -> stop
 move back == get back -> go back
 move forward == go forward == go straight ->go straight
-turn around == turn 180 degrees -> turn 180 degrees
+turn around == turn 180 degrees -> rotate:180:180
 turn right == turn to your right --> turn right
 turn left == turn to your left --> turn left
-rotate to your right -> rotate right
-rotate to your left -> rotate left
-rotate to right -> rotate right
-rotate to left -> rotate left
+rotate to right == rotate to your right -> rotate:right:90
+rotate to left == rotate to your left -> rotate:left:90
 make a left -> turn X(<=90) degrees to the right and go straight?
 make a right -> turn X(<=90) degrees to the left and go straight?
 rotate to your right -> turn X(90) degrees to the right

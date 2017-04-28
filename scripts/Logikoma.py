@@ -70,12 +70,23 @@ class Logikoma:
             goal.target_pose.pose.orientation.w = .7071
         else:
             goal.target_pose.pose.position.y = -.5
-            goal.target_pose.pose.orientation.z = -.7071
+            goal.target_pose.pose.orientation.z = .7071
             goal.target_pose.pose.orientation.w = .7071
         self.move_base.send_goal(goal)
 
-    def rotate(self, action):
-        pass
+    def rotate(self, direction, degree):
+        goal = MoveBaseGoal()
+        goal.target_pose.header.frame_id = 'base_link'
+        goal.target_pose.header.stamp = rospy.Time.now()
+        if direction == 'right':
+            goal.target_pose.pose.orientation.z = .7071
+            goal.target_pose.pose.orientation.w = .7071
+        elif direction == 'left':
+            goal.target_pose.pose.orientation.z = .7071
+            goal.target_pose.pose.orientation.w = .7071
+        else:
+            goal.target_pose.pose.orientation.w = -1
+        self.move_base.send_goal(goal)
 
     def done(self):
         pass
@@ -103,6 +114,9 @@ class Logikoma:
         elif user_goal.action == 'go straight':
             self.move_base.cancel_goal()
             self.go_forward(1)
+        elif user_goal.split(':')[0] == 'rotate':
+            self.move_base.cancel_goal()
+            self.rotate(user_goal.split(':')[1], user_goal.split(':')[2])
         else:
             print "I can't complete that action"
 

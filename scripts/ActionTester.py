@@ -5,7 +5,8 @@ from logikoma_multi_modal.msg import action_output
 class ActionTester:
     def __init__(self):
         self.valid_actions = {'go straight':'go straight', 'continue':'continue', 'turn left':'turn left',
-                              'turn right':'turn right'}
+                              'turn right':'turn right', 'go back': 'go back', 'roate left': 'rotate:left:90',
+                              'rotate right': 'rotate:right:90', 'turn around': 'rotate:180:180'}
         self.goal_topic = '/user_goal'
         self.action_pub = rospy.Publisher(self.goal_topic, action_output, queue_size=1)
 
@@ -14,7 +15,7 @@ class ActionTester:
             action = raw_input("Enter an action ")
             if action in self.valid_actions.keys():
                 msg = action_output()
-                msg.action = action
+                msg.action = self.valid_actions[action]
                 msg.header.stamp = rospy.get_rostime()
                 self.action_pub.publish(msg)
             else:
