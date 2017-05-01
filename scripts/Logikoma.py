@@ -194,12 +194,30 @@ class Logikoma:
                     self.local_map['FR']=-.5
                 else:
                     self.reset_local_map()
-            elif 'L' in self.secondary_moves or 'R' in self.secondary_moves:
+            elif 'L' in self.secondary_moves and 'R' in self.secondary_moves:
                 selection = randint(0,1)
                 if selection ==0:
                     self.hard_turn(True)
                 else:
                     self.hard_turn(False)
+                success = self.move_base.wait_for_result(rospy.Duration(10))
+                if not success:
+                    print "I am stuck please help"
+                    self.stopped = True
+                    #self.auto = False
+                else:
+                    self.reset_local_map()
+            elif 'L' in self.secondary_moves:
+                self.hard_turn(True)
+                success = self.move_base.wait_for_result(rospy.Duration(10))
+                if not success:
+                    print "I am stuck please help"
+                    self.stopped = True
+                    #self.auto = False
+                else:
+                    self.reset_local_map()
+            elif 'R' in self.secondary_moves:
+                self.hard_turn(False)
                 success = self.move_base.wait_for_result(rospy.Duration(10))
                 if not success:
                     print "I am stuck please help"
