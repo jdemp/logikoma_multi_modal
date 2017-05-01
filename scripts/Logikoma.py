@@ -61,7 +61,7 @@ class Logikoma:
         goal.target_pose.header.frame_id = 'base_link'
         goal.target_pose.header.stamp = rospy.Time.now()
         goal.target_pose.pose.position.x = -1
-        goal.target_pose.pose.orientation.w = 1.0 #go forward
+        goal.target_pose.pose.orientation.z = 1
         self.move_base.send_goal(goal)
 
     def turn(self, left):
@@ -185,11 +185,13 @@ class Logikoma:
             print "Moving with no Prefs"
             print str(self.secondary_moves)
             if self.stuck:
-                self.secondary_moves = ['B']
-            if 'F' in self.secondary_moves:
+                self.go_back()
+                self.stopped = True
+                self.stuck = False
+            elif 'F' in self.secondary_moves:
                 print "Moving forward"
                 self.go_forward(1)
-                success = self.move_base.wait_for_result(rospy.Duration(10))
+                success = self.move_base.wait_for_result(rospy.Duration(20))
                 if not success:
                     self.reset_local_map()
                     self.local_map['FL']=-5
@@ -204,7 +206,7 @@ class Logikoma:
                     self.hard_turn(True)
                 else:
                     self.hard_turn(False)
-                success = self.move_base.wait_for_result(rospy.Duration(10))
+                success = self.move_base.wait_for_result(rospy.Duration(20))
                 if not success:
                     print "I am stuck please help couldn't turn"
                     self.stuck = True
@@ -215,7 +217,7 @@ class Logikoma:
             elif 'L' in self.secondary_moves:
                 print "Turning left"
                 self.hard_turn(True)
-                success = self.move_base.wait_for_result(rospy.Duration(10))
+                success = self.move_base.wait_for_result(rospy.Duration(20))
                 if not success:
                     print "I am stuck please help couldn't turn left"
                     self.stopped = True
@@ -225,7 +227,7 @@ class Logikoma:
             elif 'R' in self.secondary_moves:
                 print "turning right"
                 self.hard_turn(False)
-                success = self.move_base.wait_for_result(rospy.Duration(10))
+                success = self.move_base.wait_for_result(rospy.Duration(20))
                 if not success:
                     print "I am stuck please help couldn't turn right"
                     self.stopped = True
@@ -235,7 +237,7 @@ class Logikoma:
             else:
                 print "Going back"
                 self.go_back()
-                success = self.move_base.wait_for_result(rospy.Duration(10))
+                success = self.move_base.wait_for_result(rospy.Duration(20))
                 self.stopped = True
                 self.reset_local_map()
         else:
@@ -260,7 +262,7 @@ class Logikoma:
                 self.hard_turn(False)
             else:
                 self.go_back()
-            success = self.move_base.wait_for_result(rospy.Duration(10))
+            success = self.move_base.wait_for_result(rospy.Duration(20))
             self.reset_local_map()
             if not success:
                 print "Something went wrong, please help"
@@ -273,10 +275,12 @@ class Logikoma:
         rospy.Subscriber(self.goal_topic, action_output, callback=self.process)
         rospy.Subscriber('/odom', Odometry, callback=self.update_pose)
         rospy.on_shutdown(self.on_shutdown)
-        rate = rospy.Rate(.2)
+        rate = rospy.Rate(.1)
         while not rospy.is_shutdown():
             if not self.stopped:
                 self.autonomous()
+            else:
+                print "I am stopped please help me"
             rate.sleep()
 
 
