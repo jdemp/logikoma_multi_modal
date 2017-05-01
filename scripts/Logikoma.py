@@ -111,7 +111,7 @@ class Logikoma:
 
     def process(self,user_goal):
         # create list of goals and which method to call each method will parse the action
-        valid_action = True
+        #valid_action = True
         if user_goal.action =='stop':
             self.move_base.cancel_goal()
             self.stopped = True
@@ -171,8 +171,8 @@ class Logikoma:
         self.local_map = {'FL':0,'F':0,'FR':0,'L':0,'R':0,'BL':0,'B':0,'BR':0}
 
     def autonomous(self):
-        self.pref_moves.clear()
-        self.secondary_moves.clear()
+        self.pref_moves = []
+        self.secondary_moves  = []
         for dir in self.local_map.keys():
             if self.local_map[dir] > 0:
                 potential_move = (dir,self.local_map[dir])
