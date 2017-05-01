@@ -155,6 +155,7 @@ class Logikoma:
         elif user_goal.action.split(':')[0] == 'rotate':
             #self.move_base.cancel_goal()
             #self.rotate(user_goal.action.split(':')[1], user_goal.action.split(':')[2])
+            pass
         else:
             print "I can't complete that action"
 
