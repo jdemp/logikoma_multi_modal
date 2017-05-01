@@ -36,6 +36,7 @@ class Logikoma:
         self.previous_move = 'stop'
         self.pref_moves = []
         self.secondary_moves = []
+        self.stuck = False
 
     def go_forward(self, action):
         goal = MoveBaseGoal()
@@ -179,10 +180,14 @@ class Logikoma:
                 self.pref_moves.append(potential_move)
             elif self.local_map[dir] == 0:
                 self.secondary_moves.append(dir)
+
         if len(self.pref_moves) == 0:
             print "Moving with no Prefs"
             print str(self.secondary_moves)
+            if self.stuck:
+                self.secondary_moves = ['B']
             if 'F' in self.secondary_moves:
+                print "Moving forward"
                 self.go_forward(1)
                 success = self.move_base.wait_for_result(rospy.Duration(10))
                 if not success:
@@ -193,6 +198,7 @@ class Logikoma:
                 else:
                     self.reset_local_map()
             elif 'L' in self.secondary_moves and 'R' in self.secondary_moves:
+                print "Turning"
                 selection = randint(0,1)
                 if selection ==0:
                     self.hard_turn(True)
@@ -200,35 +206,40 @@ class Logikoma:
                     self.hard_turn(False)
                 success = self.move_base.wait_for_result(rospy.Duration(10))
                 if not success:
-                    print "I am stuck please help"
+                    print "I am stuck please help couldn't turn"
+                    self.stuck = True
                     self.stopped = True
                     #self.auto = False
                 else:
                     self.reset_local_map()
             elif 'L' in self.secondary_moves:
+                print "Turning left"
                 self.hard_turn(True)
                 success = self.move_base.wait_for_result(rospy.Duration(10))
                 if not success:
-                    print "I am stuck please help"
+                    print "I am stuck please help couldn't turn left"
                     self.stopped = True
                     #self.auto = False
                 else:
                     self.reset_local_map()
             elif 'R' in self.secondary_moves:
+                print "turning right"
                 self.hard_turn(False)
                 success = self.move_base.wait_for_result(rospy.Duration(10))
                 if not success:
-                    print "I am stuck please help"
+                    print "I am stuck please help couldn't turn right"
                     self.stopped = True
                     #self.auto = False
                 else:
                     self.reset_local_map()
             else:
+                print "Going back"
                 self.go_back()
                 success = self.move_base.wait_for_result(rospy.Duration(10))
                 self.stopped = True
                 self.reset_local_map()
         else:
+            print "Moving with Prefs"
             best_move = ('none',0)
             for option in self.pref_moves:
                 if option[1]>best_move[1]:
