@@ -111,6 +111,7 @@ class Logikoma:
 
     def process(self,user_goal):
         # create list of goals and which method to call each method will parse the action
+        valid_action = True
         if user_goal.action =='stop':
             self.move_base.cancel_goal()
             self.stopped = True
@@ -157,13 +158,15 @@ class Logikoma:
             #self.rotate(user_goal.action.split(':')[1], user_goal.action.split(':')[2])
             pass
         else:
+            valid_action = False
             print "I can't complete that action"
 
-        success = self.move_base.wait_for_result(rospy.Duration(15))
-        if success:
-            print "I did it"
-        else:
-            print "Failed to complete action"
+        if valid_action:
+            success = self.move_base.wait_for_result(rospy.Duration(15))
+            if success:
+                print "I did it"
+            else:
+                print "Failed to complete action"
 
     def update_pose(self,msg):
         self.pose = msg.pose.pose
