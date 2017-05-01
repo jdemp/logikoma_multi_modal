@@ -180,6 +180,8 @@ class Logikoma:
             elif self.local_map[dir] == 0:
                 self.secondary_moves.append(dir)
         if len(self.pref_moves) == 0:
+            print "Moving with no Prefs"
+            print str(self.secondary_moves)
             if 'F' in self.secondary_moves:
                 self.go_forward(1)
                 success = self.move_base.wait_for_result(rospy.Duration(10))
