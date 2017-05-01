@@ -131,13 +131,25 @@ class Logikoma:
             #self.turn('left')
             self.local_map['FL'] = 1
             self.local_map['F'] =.5
-            self.local_map['L'] =.5
+            self.local_map['L'] =1
         elif user_goal.action == 'turn right':
             #self.move_base.cancel_goal()
             #self.turn('right')
             self.local_map['FR'] = 1
             self.local_map['F'] =.5
-            self.local_map['R'] =.5
+            self.local_map['R'] =1
+        elif user_goal.action == 'hard right':
+            #self.move_base.cancel_goal()
+            #self.turn('right')
+            self.local_map['FR'] = .5
+            self.local_map['F'] =.25
+            self.local_map['R'] =1
+        elif user_goal.action == 'hard left':
+            #self.move_base.cancel_goal()
+            #self.turn('right')
+            self.local_map['FL'] = .5
+            self.local_map['F'] =.25
+            self.local_map['L'] =1
         elif user_goal.action == 'go straight':
             #self.move_base.cancel_goal()
             #self.go_forward(1)
