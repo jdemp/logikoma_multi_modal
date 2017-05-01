@@ -117,7 +117,7 @@ class Logikoma:
         elif user_goal.action == 'continue':
             pass
         elif user_goal.action == 'search':
-            self.auto = True
+            self.stopped = True
         elif user_goal.action == 'done':
             self.done()
         elif user_goal.action == 'go back':
