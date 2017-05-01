@@ -6,7 +6,7 @@ class ActionTester:
     def __init__(self):
         self.valid_actions = {'go straight':'go straight', 'continue':'continue', 'turn left':'turn left',
                               'turn right':'turn right', 'go back': 'go back', 'rotate left': 'rotate:left:90',
-                              'rotate right': 'rotate:right:90', 'turn around': 'rotate:180:180'}
+                              'rotate right': 'rotate:right:90', 'turn around': 'rotate:180:180', 'search':'search'}
         self.goal_topic = '/user_goal'
         self.action_pub = rospy.Publisher(self.goal_topic, action_output, queue_size=1)
 
