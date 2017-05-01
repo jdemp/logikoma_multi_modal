@@ -1,21 +1,21 @@
 turn right /1e-12/
 turn left /1e-12/
 move forward /1e-12/
-stop /1e-12/
-wait /1e-12/
+stop /1e-8/
+wait /1e-8/
 you got it /1e-12/
-start /1e-12/
+start /1e-8/
 move back /1e-12/
 get back /1e-12/
 go forward /1e-12/
-turn to your right /1e-12/
-turn to your left /1e-12/
+turn to your right /1e-20/
+turn to your left /1e-20/
 go straight /1e-12/
 turn around /1e-12/
-rotate to your right /1e-12/
-rotate to your left /1e-12/
-rotate to right /1e-12/
-rotate to left /1e-12/
+rotate to your right /1e-20/
+rotate to your left /1e-20/
+rotate to right /1e-20/
+rotate to left /1e-20/
 make a left /1e-12/
 make a right /1e-12/
 obstacle right /1e-12/
@@ -24,4 +24,4 @@ obstacle front /1e-12/
 obstacle on right /1e-12/
 obstacle on left /1e-12/
 obstacle in front /1e-12/
-done /1e-12/
+done /1e-8/
