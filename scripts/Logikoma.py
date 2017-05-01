@@ -30,7 +30,7 @@ class Logikoma:
         self.goal_topic = '/user_goal'
         self.move_base = actionlib.SimpleActionClient("move_base", MoveBaseAction)
         self.pose = Pose()
-        self.stopped = False
+        self.stopped = True
         self.auto = False
         self.local_map = {'FL':0,'F':0,'FR':0,'L':0,'R':0,'BL':0,'B':0,'BR':0}
         self.previous_move = 'stop'
@@ -107,7 +107,7 @@ class Logikoma:
         self.move_base.send_goal(goal)
 
     def done(self):
-        pass
+        self.stopped = True
 
     def process(self,user_goal):
         # create list of goals and which method to call each method will parse the action
@@ -118,7 +118,7 @@ class Logikoma:
         elif user_goal.action == 'continue':
             pass
         elif user_goal.action == 'search':
-            self.stopped = True
+            self.stopped = False
         elif user_goal.action == 'done':
             self.done()
         elif user_goal.action == 'go back':
