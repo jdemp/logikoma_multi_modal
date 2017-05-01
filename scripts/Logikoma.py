@@ -30,7 +30,7 @@ class Logikoma:
         self.goal_topic = '/user_goal'
         self.move_base = actionlib.SimpleActionClient("move_base", MoveBaseAction)
         self.pose = Pose()
-        self.stopped = True
+        self.stopped = False
         self.auto = False
         self.local_map = {'FL':0,'F':0,'FR':0,'L':0,'R':0,'BL':0,'B':0,'BR':0}
         self.previous_move = 'stop'
@@ -158,15 +158,7 @@ class Logikoma:
             #self.rotate(user_goal.action.split(':')[1], user_goal.action.split(':')[2])
             pass
         else:
-            valid_action = False
-            print "I can't complete that action"
-
-        if valid_action:
-            success = self.move_base.wait_for_result(rospy.Duration(15))
-            if success:
-                print "I did it"
-            else:
-                print "Failed to complete action"
+            print "Not useful information"
 
     def update_pose(self,msg):
         self.pose = msg.pose.pose
