@@ -211,8 +211,8 @@ class Logikoma:
                 self.go_back()
                 success = self.move_base.wait_for_result(rospy.Duration(10))
                 self.stopped = True
+                self.reset_local_map()
         else:
-            self.reset_local_map()
             best_move = ('none',0)
             for option in self.pref_moves:
                 if option[1]>best_move[1]:
@@ -234,6 +234,7 @@ class Logikoma:
             else:
                 self.go_back()
             success = self.move_base.wait_for_result(rospy.Duration(10))
+            self.reset_local_map()
             if not success:
                 print "Something went wrong, please help"
                 self.stopped = True
