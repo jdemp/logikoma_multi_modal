@@ -18,3 +18,10 @@ rotate to right /1e-12/
 rotate to left /1e-12/
 make a left /1e-12/
 make a right /1e-12/
+obstacle right /1e-12/
+obstacle left /1e-12/
+obstacle front /1e-12/
+obstacle on right /1e-12/
+obstacle on left /1e-12/
+obstacle in front /1e-12/
+done /1e-12/

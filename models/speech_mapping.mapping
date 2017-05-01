@@ -10,7 +10,7 @@ make a left -> turn X(<=90) degrees to the right and go straight?
 make a right -> turn X(<=90) degrees to the left and go straight?
 rotate to your right -> turn X(90) degrees to the right
 start -> search
-you got it -> done
+you got it == done -> done
 obstacle right == obstacle on right -> obstacle right
 obstacle left == obstacle on left -> obstacle left
 obstacle front == obstacle in front -> obstacle front
