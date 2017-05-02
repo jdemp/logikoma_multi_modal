@@ -12,8 +12,9 @@ class ActionTester:
             action = raw_input("Enter an action ")
             #if action in self.valid_actions.keys():
             msg = user_input()
-            msg.action = action.strip()
+            msg.input = action.strip()
             msg.header.stamp = rospy.get_rostime()
+            msg.type = 'keyboard'
             self.action_pub.publish(msg)
             #else:
                 #print "Not a valid action"
