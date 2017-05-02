@@ -1,5 +1,5 @@
 stop == wait -> stop
-move back == get back -> go back
+move back == get back == go back == turn around -> go back
 move forward == go forward == go straight ->go straight
 turn around == turn 180 degrees -> rotate:180:180
 turn right == turn to your right --> turn right
