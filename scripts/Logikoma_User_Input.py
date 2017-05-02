@@ -48,6 +48,7 @@ class Logikoma_User_Input:
             self.input_mappers['keyboard'] = SpeechMapper(True, False, False)
             self.input_mappers['keyboard'].set_static_mapping(self.MODELDIR + 'speech_mapping.mapping')
             rospy.Subscriber(keyboard_topic, user_input, callback=self.process)
+            self.number_of_inputs += 1
 
         if self.number_of_inputs >0:
             print "Running with " + str(self.number_of_inputs) + " user inputs"
