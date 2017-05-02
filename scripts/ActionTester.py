@@ -11,10 +11,10 @@ class ActionTester:
         while not rospy.is_shutdown():
             action = raw_input("Enter an action ")
             #if action in self.valid_actions.keys():
-                msg = action_output()
-                msg.action = action.strip()
-                msg.header.stamp = rospy.get_rostime()
-                self.action_pub.publish(msg)
+            msg = action_output()
+            msg.action = action.strip()
+            msg.header.stamp = rospy.get_rostime()
+            self.action_pub.publish(msg)
             #else:
                 #print "Not a valid action"
 
