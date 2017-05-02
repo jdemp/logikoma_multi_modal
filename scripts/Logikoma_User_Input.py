@@ -20,20 +20,41 @@ class Logikoma_User_Input:
         self.number_of_inputs = 0
         self.current_inputs = []
         self.input_mappers = {}
+        self.invalid_multi_modal = [('turn left', 'turn right'), ('turn right', 'turn left'), ('hard left', 'hard right'),
+                                    ('hard right', 'hard left'), ('turn left', 'hard right'), ('hard right', 'turn left'),
+                                    ('hard left', 'turn right'), ('turn right', 'hard left')]
+
+
+    def get_msg(self, msg):
+        if msg.type == 'speech':
+            action = self.input_mappers['speech'].process(msg.input)
+        elif msg.type == 'keyboard':
+            action = self.input_mappers['keyboard'].process(msg.input)
+        else:
+            action = 'none'
+        action_msg = action_output()
+        action_msg.action = action
+        return action_msg
 
     def decide_action(self):
         if len(self.current_inputs)==1:
             msg = self.current_inputs.pop()
-            if msg.type == 'speech':
-                action = self.input_mappers['speech'].process(msg.input)
-            elif msg.type == 'keyboard':
-                action = self.input_mappers['keyboard'].process(msg.input)
-            else:
-                action = 'none'
-            msg = action_output()
-            msg.action = action
+            msg = self.get_msg(msg)
             msg.header.stamp = rospy.get_rostime()
-            self.goal_pub.publish(msg)
+            if not msg.action == 'No Action':
+                self.goal_pub.publish(msg)
+        elif len(self.current_inputs)==2:
+            second_input = self.current_inputs.pop()
+            first_input = self.current_inputs.pop()
+            action_one = self.get_msg(first_input)
+            action_two = self.get_msg(second_input)
+            if action_one.action == action_two.action and not action_two.action == 'No Action':
+                self.goal_pub.publish(action_two)
+            else:
+                action_pair = (action_one.action, action_two.action)
+                if self.invalid_multi_modal.count(action_pair) == 0:
+                    self.goal_pub.publish(action_one)
+                    self.goal_pub.publish(action_two)
 
     def process(self, msg):
         self.input_history.append(msg)
@@ -55,7 +76,7 @@ class Logikoma_User_Input:
 
         if self.number_of_inputs >0:
             print "Running with " + str(self.number_of_inputs) + " user inputs"
-            rate = rospy.Rate(5)
+            rate = rospy.Rate(.2)
             while not rospy.is_shutdown():
                 self.decide_action()
                 rate.sleep()
