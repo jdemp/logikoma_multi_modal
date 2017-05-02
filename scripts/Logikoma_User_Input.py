@@ -26,6 +26,8 @@ class Logikoma_User_Input:
             msg = self.current_inputs.pop()
             if msg.type == 'speech':
                 action = self.input_mappers['speech'].process(msg.input)
+            elif msg.type == 'keyboard':
+                action = self.input_mappers['keyboard'].process(msg.input)
             else:
                 action = 'none'
             msg = action_output()
