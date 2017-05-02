@@ -44,7 +44,7 @@ class Logikoma_User_Input:
                 msg.header.stamp = rospy.get_rostime()
                 if not msg.action == 'No Action':
                     self.goal_pub.publish(msg)
-            elif len(self.current_inputs)==2:
+            else:
                 second_input = self.current_inputs.pop()
                 first_input = self.current_inputs.pop()
                 action_one = self.get_msg(first_input)
