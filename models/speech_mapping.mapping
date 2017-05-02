@@ -6,9 +6,6 @@ turn right == turn to your right --> turn right
 turn left == turn to your left --> turn left
 rotate to right == rotate to your right -> rotate:right:90
 rotate to left == rotate to your left -> rotate:left:90
-make a left -> turn X(<=90) degrees to the right and go straight?
-make a right -> turn X(<=90) degrees to the left and go straight?
-rotate to your right -> turn X(90) degrees to the right
 start == search == continue -> search
 you got it -> done
 obstacle right == obstacle on right -> obstacle right

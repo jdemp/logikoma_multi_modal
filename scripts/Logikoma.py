@@ -75,7 +75,7 @@ class Logikoma:
             goal.target_pose.pose.orientation.w = .7071
         else:
             goal.target_pose.pose.position.y = -.5
-            goal.target_pose.pose.orientation.z = .7071
+            goal.target_pose.pose.orientation.z = -.7071
             goal.target_pose.pose.orientation.w = .7071
         self.move_base.send_goal(goal)
 
@@ -89,7 +89,7 @@ class Logikoma:
             goal.target_pose.pose.orientation.w = .7071
         else:
             goal.target_pose.pose.position.y = -1
-            goal.target_pose.pose.orientation.z = .7071
+            goal.target_pose.pose.orientation.z = -.7071
             goal.target_pose.pose.orientation.w = .7071
         self.move_base.send_goal(goal)
 
