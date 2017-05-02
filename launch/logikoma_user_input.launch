@@ -1,7 +1,6 @@
 <launch>
     <param name="speech_topic" value = "/keyboard_input"/>
     <param name = "goal_topic"  value = "/user_goal"/>
-    <node name="speech_recog" pkg="logikoma_multi_modal" type = "SpeechRecog.py" />
     <node name="logikoma_user_input" pkg = "logikoma_multi_modal" type = "Logikoma_User_Input.py">
         <param name="user_keyboard" type="bool" value = "true"/>
     </node>
