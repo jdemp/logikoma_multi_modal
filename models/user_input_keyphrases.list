@@ -26,5 +26,6 @@ obstacle on left /1e-12/
 obstacle in front /1e-12/
 done /1e-8/
 search /1e-8/
+continue /1e-12/
 hard left /1e-12/
 hard right /1e-12/

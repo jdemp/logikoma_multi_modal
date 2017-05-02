@@ -9,8 +9,8 @@ rotate to left == rotate to your left -> rotate:left:90
 make a left -> turn X(<=90) degrees to the right and go straight?
 make a right -> turn X(<=90) degrees to the left and go straight?
 rotate to your right -> turn X(90) degrees to the right
-start == search -> search
-you got it == done -> done
+start == search == continue -> search
+you got it -> done
 obstacle right == obstacle on right -> obstacle right
 obstacle left == obstacle on left -> obstacle left
 obstacle front == obstacle in front -> obstacle front
