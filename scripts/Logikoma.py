@@ -185,7 +185,7 @@ class Logikoma:
 
     def autonomous(self):
 
-        self.move_base.cancel_goal()
+        #self.move_base.cancel_goal()
         self.pref_moves = []
         self.secondary_moves  = []
         for dir in self.local_map.keys():
