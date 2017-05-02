@@ -13,6 +13,7 @@ class Logikoma_User_Input:
         print str(self.use_speech)
         self.use_gesture = rospy.get_param('use_gesture', False)
         self.use_keyboard = rospy.get_param('use_keyboard', False)
+        print str(self.use_keyboard)
         self.goal_topic = rospy.get_param('/goal_topic', '/goal')
         self.goal_pub = rospy.Publisher(self.goal_topic, action_output, queue_size=1)
         self.input_history = []
