@@ -4,7 +4,7 @@ from logikoma_multi_modal.msg import action_output
 
 class ActionTester:
     def __init__(self):
-        self.goal_topic = '/user_goal'
+        self.goal_topic = '/keyboard_input'
         self.action_pub = rospy.Publisher(self.goal_topic, action_output, queue_size=1)
 
     def start(self):

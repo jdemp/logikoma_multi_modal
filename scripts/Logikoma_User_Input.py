@@ -9,7 +9,7 @@ class Logikoma_User_Input:
     def __init__(self):
         pkg_path = rospkg.RosPack().get_path('logikoma_multi_modal')
         self.MODELDIR = pkg_path + "/models/"
-        self.use_speech = rospy.get_param('/logikoma_user_input/use_speech', True)
+        self.use_speech = rospy.get_param('/logikoma_user_input/use_speech', False)
         print str(self.use_speech)
         self.use_gesture = rospy.get_param('use_gesture', False)
         self.use_keyboard = rospy.get_param('use_keyboard', False)
@@ -43,6 +43,11 @@ class Logikoma_User_Input:
             self.input_mappers['speech'].set_static_mapping(self.MODELDIR + 'speech_mapping.mapping')
             rospy.Subscriber(speech_topic, user_input, callback=self.process)
             self.number_of_inputs += 1
+        if self.use_keyboard:
+            keyboard_topic = rospy.get_param('/keyboard_topic', '/keyboard_input')
+            self.input_mappers['keyboard'] = SpeechMapper(True, False, False)
+            self.input_mappers['keyboard'].set_static_mapping(self.MODELDIR + 'speech_mapping.mapping')
+            rospy.Subscriber(keyboard_topic, user_input, callback=self.process)
 
         if self.number_of_inputs >0:
             print "Running with " + str(self.number_of_inputs) + " user inputs"
