@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 import rospy
-from logikoma_multi_modal.msg import action_output
+from logikoma_multi_modal.msg import user_input
 
 class ActionTester:
     def __init__(self):
         self.goal_topic = '/keyboard_input'
-        self.action_pub = rospy.Publisher(self.goal_topic, action_output, queue_size=1)
+        self.action_pub = rospy.Publisher(self.goal_topic, user_input, queue_size=1)
 
     def start(self):
         while not rospy.is_shutdown():
             action = raw_input("Enter an action ")
             #if action in self.valid_actions.keys():
-            msg = action_output()
+            msg = user_input()
             msg.action = action.strip()
             msg.header.stamp = rospy.get_rostime()
             self.action_pub.publish(msg)
