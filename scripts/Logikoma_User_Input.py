@@ -37,24 +37,25 @@ class Logikoma_User_Input:
         return action_msg
 
     def decide_action(self):
-        if len(self.current_inputs)==1:
-            msg = self.current_inputs.pop()
-            msg = self.get_msg(msg)
-            msg.header.stamp = rospy.get_rostime()
-            if not msg.action == 'No Action':
-                self.goal_pub.publish(msg)
-        elif len(self.current_inputs)==2:
-            second_input = self.current_inputs.pop()
-            first_input = self.current_inputs.pop()
-            action_one = self.get_msg(first_input)
-            action_two = self.get_msg(second_input)
-            if action_one.action == action_two.action and not action_two.action == 'No Action':
-                self.goal_pub.publish(action_two)
-            else:
-                action_pair = (action_one.action, action_two.action)
-                if self.invalid_multi_modal.count(action_pair) == 0:
-                    self.goal_pub.publish(action_one)
+        while len(self.current_inputs) > 0:
+            if len(self.current_inputs)==1:
+                msg = self.current_inputs.pop()
+                msg = self.get_msg(msg)
+                msg.header.stamp = rospy.get_rostime()
+                if not msg.action == 'No Action':
+                    self.goal_pub.publish(msg)
+            elif len(self.current_inputs)==2:
+                second_input = self.current_inputs.pop()
+                first_input = self.current_inputs.pop()
+                action_one = self.get_msg(first_input)
+                action_two = self.get_msg(second_input)
+                if action_one.action == action_two.action and not action_two.action == 'No Action':
                     self.goal_pub.publish(action_two)
+                else:
+                    action_pair = (action_one.action, action_two.action)
+                    if self.invalid_multi_modal.count(action_pair) == 0:
+                        self.goal_pub.publish(action_one)
+                        self.goal_pub.publish(action_two)
 
     def process(self, msg):
         self.input_history.append(msg)
