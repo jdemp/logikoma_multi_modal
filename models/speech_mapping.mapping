@@ -14,3 +14,5 @@ you got it == done -> done
 obstacle right == obstacle on right -> obstacle right
 obstacle left == obstacle on left -> obstacle left
 obstacle front == obstacle in front -> obstacle front
+hard left -> hard left
+hard right -> hard right
